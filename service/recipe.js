@@ -15,15 +15,15 @@ const createRecipe = (nome, descricao, tempoPreparo, user) => {
     })
 }
 
-const updateRecipe = (id, nome, descricao, tempoPreparo, userId) => {
-    return prisma.receita.update ({
+const updateRecipe = (id, nome, descricao, tempoPreparo) => {
+    return prisma.recipe.update({
         where:{id},
-        data:{nome, descricao, tempoPreparo, userId}
+        data:{nome, descricao, tempoPreparo}
     })
 }
 
 const deleteRecipe = (id) => {
-    return prisma.recipe.delete ({
+    return prisma.recipe.delete({
         where:{id}
     })
 }
@@ -32,5 +32,5 @@ module.exports = {
     getAllRecipe,
     createRecipe,
     updateRecipe,
-    deleteRecipe,
+    deleteRecipe
 }
