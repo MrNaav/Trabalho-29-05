@@ -4,23 +4,23 @@ const getAllRecipe = () => {
     return prisma.recipe.findMany()
 }
 
-const createRecipe = (nome, descricao, tempoPreparo, user) => {
+const createRecipe = ({nome, descricao, tempoPreparo, userId}) => {
     return prisma.recipe.create({
         data:{
             nome,
             descricao,
             tempoPreparo,
-            user
+            userId
         }
-    })
+    });
 }
 
-const updateRecipe = (id, nome, descricao, tempoPreparo) => {
+const updateRecipe = (id, {nome, descricao, tempoPreparo, userId}) => {
     return prisma.recipe.update({
         where:{id},
-        data:{nome, descricao, tempoPreparo}
-    })
-}
+        data:{nome, descricao, tempoPreparo, userId}
+    });
+};
 
 const deleteRecipe = (id) => {
     return prisma.recipe.delete({
@@ -32,5 +32,5 @@ module.exports = {
     getAllRecipe,
     createRecipe,
     updateRecipe,
-    deleteRecipe
+    deleteRecipe,
 }

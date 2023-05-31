@@ -5,7 +5,7 @@ const getAllUsuario = () => {
     return prisma.user.findMany()
 }
 
-const createUsuario = (nome, email, senha) => {
+const createUsuario = ({nome, email, senha}) => {
     const senhaCriptografada = bcrypt.hashSync(senha, 10)
     return prisma.user.create({
         data:{
@@ -13,15 +13,15 @@ const createUsuario = (nome, email, senha) => {
             email,
             senha:senhaCriptografada
         }
-    })
+    });
 }
 
-const updateUsuario = (id, nome, email, senha) => {
+const updateUsuario = (id, {nome, email, senha}) => {
     return prisma.user.update({
         where:{id},
         data:{nome, email, senha}
-    })
-}
+    });
+};
 
 const deleteUsuario = (id) => {
     return prisma.user.delete({
@@ -29,9 +29,16 @@ const deleteUsuario = (id) => {
     })
 }
 
+const getUserbyEmail = (email) => {
+    return prisma.user.findFirst({
+        where: {email}
+    })
+}
+
 module.exports = {
     getAllUsuario,
     createUsuario,
     updateUsuario,
-    deleteUsuario
+    deleteUsuario,
+    getUserbyEmail,
 }

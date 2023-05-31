@@ -8,23 +8,21 @@ router.get("/user", async(req,res) => {
     res.json(user)
 })
 
-router.post("/user", async(req,res) => {
-    const {nome,email,senha} = req.body
-    const user = await createUsuario(nome, email, senha)
-    res.json(user)
-})
+router.post("/user", async (req,res) =>{
+    const newuser = await createUsuario(req.body)
+    res.json(newuser)
+  } )
 
-router.put("/user/:id", async (req, res) => {
-    const id = Number(req.params.id)
-    const {nome,email,senha} = req.body
-    const updatedUser = await updateUsuario(id, nome, email, senha)
+  router.put("/user/:id", async(req,res) =>{
+    const userId=Number(req.params.id) 
+    const updatedUser=await updateUsuario(userId,req.body)
     res.json(updatedUser)
-})
+  } )
 
-router.delete("/user/:id", async (req, res) => {
-    const id = Number(req.params.id)
-    const deletedUser = await deleteUsuario(id)
+  router.delete("/user/:id", async(req,res) =>{
+    const userId=Number(req.params.id)
+    const deletedUser=await deleteUsuario(userId,req.body)
     res.json(deletedUser)
-})
+  } )
 
 module.exports = router
