@@ -24,7 +24,7 @@ const updateRecipe = (id, {nome, descricao, tempoPreparo, userId}) => {
 
 const deleteRecipe = (id) => {
     return prisma.recipe.delete({
-        where:{id}
+        where:{id: id}
     })
 }
 
