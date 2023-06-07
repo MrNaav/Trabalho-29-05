@@ -16,8 +16,8 @@ router.post("/user", async (req,res) =>{
     res.json(newuser)
   } )
 
-  router.put("/user/:id", auth, async(req,res) =>{
-    const userId=Number(req.params.id) 
+  router.put("/user", auth, async(req,res) =>{
+    const userId=Number(req.user.id) 
     const updatedUser=await updateUsuario(userId,req.body)
     res.json(updatedUser)
   } )

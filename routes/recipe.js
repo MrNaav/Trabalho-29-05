@@ -5,6 +5,7 @@ const z = require("zod")
 
 const {getAllRecipe, createRecipe, updateRecipe, deleteRecipe} = require("../service/recipe")
 const { user } = require("../db/prisma")
+const prisma = require("../db/prisma")
 
 const recipeSchema = z.object({
   nome: z.string(),
@@ -49,8 +50,20 @@ router.post("/recipe", auth, async (req,res) =>{
   router.put("/recipe/:id", auth, async(req,res) =>{
     try {
       const id = recipePutSchema.parse(Number(req.params.id))
-      const updatedRecipe=await updateRecipe(id,req.body)
+      const userId = Number(req.user.id);
+      const validRecipe = await prisma.recipe.findFirst({
+        where: {
+          id,
+          userId
+        }
+      })
 
+      if(!validRecipe) {
+        return res.status(400)
+          .send({ message: "not found"})
+      }
+
+      const updatedRecipe=await updateRecipe(id,req.body)
       res.json(updatedRecipe)
     }catch(error){
       if (error instanceof z.ZodError) {
