@@ -5,7 +5,7 @@ const getAllUsuario = () => {
     return prisma.user.findMany()
 }
 
-const createUsuario = ({nome, email, senha}) => {
+const createUsuario = ({email, senha, nome}) => {
     const senhaCriptografada = bcrypt.hashSync(senha, 10)
     return prisma.user.create({
         data:{
@@ -29,7 +29,7 @@ const deleteUsuario = (id) => {
     })
 }
 
-const getUserbyEmail = (email) => {
+const getUserbyEmail = async (email) => {
     return prisma.user.findFirst({
         where: {email}
     })

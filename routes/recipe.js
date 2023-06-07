@@ -4,6 +4,7 @@ const auth = require("../middleware/auth")
 const z = require("zod")
 
 const {getAllRecipe, createRecipe, updateRecipe, deleteRecipe} = require("../service/recipe")
+const { user } = require("../db/prisma")
 
 const recipeSchema = z.object({
   nome: z.string(),
@@ -29,10 +30,10 @@ router.get("/recipe", auth, async(req, res) => {
   
 });
 
-router.post("/recipe", async (req,res) =>{
+router.post("/recipe", auth, async (req,res) =>{
     try {
       recipeSchema.parse(req.body)
-      const newrecipe = await createRecipe(req.body)
+      const newrecipe = await createRecipe(req.body, req.user)
       res.json(newrecipe)
     } catch(error) {
       if (error instanceof z.ZodError) {
@@ -45,7 +46,7 @@ router.post("/recipe", async (req,res) =>{
     }
   } )
 
-  router.put("/recipe/:id", async(req,res) =>{
+  router.put("/recipe/:id", auth, async(req,res) =>{
     try {
       const id = recipePutSchema.parse(Number(req.params.id))
       const updatedRecipe=await updateRecipe(id,req.body)
@@ -62,7 +63,7 @@ router.post("/recipe", async (req,res) =>{
     }
   } )
 
-router.delete("/recipe/:id", async(req,res) =>{
+router.delete("/recipe/:id", auth, async(req,res) =>{
   try{
     const id = recipeIdSchema.parse(Number(req.params.id))
     const deletedRecipe = await deleteRecipe(id)

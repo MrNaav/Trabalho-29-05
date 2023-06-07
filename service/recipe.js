@@ -4,13 +4,13 @@ const getAllRecipe = () => {
     return prisma.recipe.findMany()
 }
 
-const createRecipe = ({nome, descricao, tempoPreparo, userId}) => {
+const createRecipe =  async ({nome, descricao, tempoPreparo}, {id}) => {
     return prisma.recipe.create({
         data:{
             nome,
             descricao,
             tempoPreparo,
-            userId
+            userId: id
         }
     });
 }
